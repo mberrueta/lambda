@@ -21,6 +21,11 @@ You can find out how [ImageMagick resize](http://www.imagemagick.org/Usage/resiz
 
 ==WARNING: This example assumes that you have installed and configured the [AWS Command Line Interface](https://aws.amazon.com/cli/)==
 
+Also the aws user needs the following permisions
+```
+ "cloudformation:CreateStack","cloudformation:UpdateStack", "iam:CreateRole", "iam:DeleteRolePolicy", "iam:PutRolePolicy", "iam:DeleteRole", "iam:GetRole", "lambda:CreateFunction", "iam:PassRole", "lambda:DeleteFunction" , "lambda:GetFunctionConfiguration", "lambda:AddPermission"
+```
+
 Clone this repository ...
 
 ```
@@ -39,11 +44,6 @@ $ cd lambda-master/
 Create an S3 bucket for your Lambda code in the US East (N. Virginia, `us-east-1`) region and upload the `lambda.zip` file (replace `$LambdaS3Bucket` with a S3 bucket name e.g. `lambda-michael`).
 
 ==WARNING: This bucket has nothing to do with the resizing of images. It contains the zipped source code of the Lambda function.==
-
-Also the aws user needs the following permisions
-```
- "cloudformation:CreateStack","cloudformation:UpdateStack", "iam:CreateRole", "iam:DeleteRolePolicy", "iam:PutRolePolicy", "iam:DeleteRole", "iam:GetRole", "lambda:CreateFunction", "iam:PassRole", "lambda:DeleteFunction" , "lambda:GetFunctionConfiguration", "lambda:AddPermission"
-```
 
 
 ```
