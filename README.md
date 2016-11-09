@@ -24,7 +24,7 @@ You can find out how [ImageMagick resize](http://www.imagemagick.org/Usage/resiz
 Clone this repository ...
 
 ```
-$ git clone git@github.com:AWSinAction/lambda.git
+$ git clone https://git@github.com:AWSinAction/lambda.git
 $ cd lambda/
 ```
 
@@ -40,13 +40,19 @@ Create an S3 bucket for your Lambda code in the US East (N. Virginia, `us-east-1
 
 ==WARNING: This bucket has nothing to do with the resizing of images. It contains the zipped source code of the Lambda function.==
 
+Also the aws user needs the following permisions
+```
+ "cloudformation:CreateStack","cloudformation:UpdateStack", "iam:CreateRole", "iam:DeleteRolePolicy", "iam:PutRolePolicy", "iam:DeleteRole", "iam:GetRole", "lambda:CreateFunction", "iam:PassRole", "lambda:DeleteFunction" , "lambda:GetFunctionConfiguration", "lambda:AddPermission"
+```
+
+
 ```
 export AWS_DEFAULT_REGION=us-east-1
 $ aws s3 mb s3://$LambdaS3Bucket
 $ aws s3 cp lambda.zip s3://$LambdaS3Bucket/lambda.zip
 ```
 
-Create a CloudFormation stack (replace `$ImageS3Bucket` with a name for your image bucket e. g. `image-michael`, replace `$LambdaS3Bucket` with your Lambda code S3 bucket name).
+Create a CloudFormation stack (replace `$ImageS3Bucket` with a name for your image bucket e. g. `image-michael`, replace `$LambdaS3Bucket` with your Lambda code S3 bucket name) **lower-case** and without `bucket` in the name .
 
 ```
 $ aws cloudformation create-stack --stack-name lambda-resize --template-body file://template.json --capabilities CAPABILITY_IAM --parameters ParameterKey=ImageS3Bucket,ParameterValue=$ImageS3Bucket ParameterKey=LambdaS3Bucket,ParameterValue=$LambdaS3Bucket
@@ -74,8 +80,8 @@ $ aws s3 ls s3://$ImageS3Bucket-resized
   PRE 150x/
   PRE 50x50/
   PRE x150/
-                           
-$ aws s3 ls s3://$ImageS3Bucket-resized/150x/                           
+
+$ aws s3 ls s3://$ImageS3Bucket-resized/150x/
 ```
 
 As you can see, for every size configuration a new "directory" was created.
