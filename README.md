@@ -80,6 +80,12 @@ $ ./bundle.sh
 $ aws s3 cp lambda-resize-code.zip s3://BUCKET-NAME/lambda-resize-code.zip
 ```
 
+push update
+```
+$ ./update.sh BUCKET-NAME
+```
+
 ## Summary
 
 AWS Lambda can respond to S3 events like a new file was uploaded. The Lambda function will download theoriginal image from S3 to create new resized images. The resized images are then upload to S3 again. The Lambda solution in scalable and does not require any operational work.
+

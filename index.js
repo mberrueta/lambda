@@ -15,13 +15,11 @@ function cross(left, right) {
 }
 
 exports.handler = function(event, context) {
-    console.log("resize: event ", JSON.stringify(event));
+    // console.log("resize: event ", JSON.stringify(event));
     async.mapLimit(event.Records, CONFIG.concurrency, function(record, cb) {
 
             var originalKey = decodeURIComponent(record.s3.object.key.replace(/\+/g, " "));
-
-            console.log("resize: file ", JSON.stringify(record.s3.object), record.s3.bucket.name);
-
+            // console.log("resize: file ", JSON.stringify(record.s3.object), record.s3.bucket.name);
             //  if (!originalKey.match(/\.(jpg|jpeg|png|gif)$/))
             // return false;
 
@@ -34,18 +32,15 @@ exports.handler = function(event, context) {
                     cb(err);
                 } else {
 
-                    console.log("resize: get OK ");
+                    // console.log("resize: get OK ");
                     cb(null, {
                         "originalKey": originalKey,
                         "contentType": data.ContentType,
-                        // "imageType": getImageType(data.ContentType),
                         "buffer": data.Body,
                         "orig_bucket": record.s3.bucket.name
                     });
                 }
             });
-
-
         },
 
         //put image
@@ -64,30 +59,28 @@ exports.handler = function(event, context) {
                     var image = resizePair[1];
                     //image type is optional
 
-                    console.log("resize: config ", JSON.stringify(config), image.originalKey);
+                    // console.log("resize: config ", JSON.stringify(config), image.originalKey);
 
 
                     IMAGIK(image.buffer).resize(config.size).toBuffer(function(err, buffer) {
                         if (err) {
-                                console.log( 'error>>>',err)
+                                // console.log( 'error>>>',err)
                             cb(err);
                         } else {
 
 		                    var fname = image.originalKey.replace(/^(.*).*(\..*)$/i, '$1-' + config.name + '$2')
 		                    var dest = image.orig_bucket + '-' + CONFIG.resized_bucked_sufix;
-		                    console.log("resize done: file ", fname, dest);
-
+		                    // console.log("resize done: file ", fname, dest);
 
                             s3.putObject({
                                 "Bucket": dest,
                                 "Key": fname,
-                                "Body": buffer
+                                "Body": buffer,
+                                "ACL": "public-read"
                             }, function(err) {
                                 cb(err);
-
-                                if (!err)
-                                    console.log("resize: put OK ");
-
+                                // if (!err)
+                                //     console.log("resize: put OK ");
                             });
                         }
                     });

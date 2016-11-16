@@ -1,9 +1,10 @@
 {
   "resized_bucked_sufix": "resized-img",
-	"concurrency": 4,
+	"concurrency": 2,
 	"sizes": [
-    { "name": "small" , "size" : "150x150"},
-    { "name": "medium" , "size" : "350x350"},
-    { "name": "large" , "size" : "1050x1050"}
+    { "name": "thumbnail" , "size" : "320x"},
+    { "name": "medium" , "size" : "1280x"},
+    { "name": "small" , "size" : "800x"},
+    { "name": "large" , "size" : "1920x"}
   ]
 }
